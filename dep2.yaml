@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wibit-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: wibit-app
+  template:
+    metadata:
+      labels:
+        app: wibit-app
+    spec:
+      containers:
+      - name: wibit
+        image: docker.io/mastani19/suu_project_app
+        ports:
+        - containerPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wibit-app-service
+spec:
+  selector:
+    app: wibit-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000
+  type: LoadBalancer
